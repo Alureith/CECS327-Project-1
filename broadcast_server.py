@@ -1,26 +1,32 @@
 import socket
 import time
 
-# Broadcast IP address for the subnet (adjust according to your network)
-BROADCAST_IP = "192.168.100.255"  # Broadcast IP address
-PORT = 5000
-MESSAGE = "Hello from the Master Node (Broadcast)"
+# Create a UDP socket using IPv4
+server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
 
-sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)  # Enable broadcasting
+# Enable socket option for port reuse, allowing multiple clients and servers to use the same port
+server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
+
+# Enable broadcasting mode to send messages to all devices in the network
+server.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+
+# Set a timeout to prevent the socket from blocking forever when waiting for a response
+server.settimeout(0.2)
+
+# Define the message to be sent
+message = b"Hello! This is a broadcast."
+
+# Set the broadcast address for Cluster A 
+broadcast_address = '192.168.100.255'  # Broadcast address for subnet 192.168.100.0/24
 
 print("Server is broadcasting messages to all workers...")
 
 while True:
     try:
-        # Send broadcast message to all containers in the subnet
-        print(f"Sending broadcast message to {BROADCAST_IP}: {MESSAGE}")
-        sock.sendto(MESSAGE.encode(), (BROADCAST_IP, PORT))  # Send message to broadcast IP
-        print(f"Sent broadcast message: {MESSAGE}")
-        time.sleep(5)  # Send message every 5 seconds
-    except KeyboardInterrupt:
-        print("Server shutting down.")
-        break
+        # Send the message to the broadcast address on port 37020
+        server.sendto(message, (broadcast_address, 37020))
+        print("Message sent!")
+        time.sleep(1)  # Wait for 1 second before sending the next message
     except Exception as e:
-        print(f"Error: {e}")
-        break
+        # If any exception occurs during sending, print the error
+        print(f"Error occurred: {e}")
