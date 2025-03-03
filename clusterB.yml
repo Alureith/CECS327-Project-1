@@ -1,0 +1,78 @@
+version: '3.8'
+
+networks:
+  cluster-b:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.200.0/24
+
+  shared-network:  # Shared network to communicate with Cluster A
+    external: true  # Use the same shared network as Cluster A
+
+services:
+  container-b-master:
+    container_name: cluster-b-master
+    image: python:3.9
+    command: tail -f /dev/null  # Keeps the container running
+    networks:
+      cluster-b:
+        ipv4_address: 192.168.200.2
+      shared-network:
+        ipv4_address: 192.168.60.3  # Unique IP on shared network
+
+  container-b2:
+    container_name: project1-container-b2
+    image: python:3.9
+    command: tail -f /dev/null  # Keeps the container running
+    networks:
+      cluster-b:
+        ipv4_address: 192.168.200.3
+
+  container-b3:
+    container_name: project1-container-b3
+    image: python:3.9
+    command: tail -f /dev/null  # Keeps the container running
+    networks:
+      cluster-b:
+        ipv4_address: 192.168.200.4
+
+  container-b4:
+    container_name: project1-container-b4
+    image: python:3.9
+    command: tail -f /dev/null  # Keeps the container running
+    networks:
+      cluster-b:
+        ipv4_address: 192.168.200.5
+
+  container-b5:
+    container_name: project1-container-b5
+    image: python:3.9
+    command: tail -f /dev/null  # Keeps the container running
+    networks:
+      cluster-b:
+        ipv4_address: 192.168.200.6
+
+  container-b6:
+    container_name: project1-container-b6
+    image: python:3.9
+    command: tail -f /dev/null  # Keeps the container running
+    networks:
+      cluster-b:
+        ipv4_address: 192.168.200.7
+
+  container-b7:
+    container_name: project1-container-b7
+    image: python:3.9
+    command: tail -f /dev/null  # Keeps the container running
+    networks:
+      cluster-b:
+        ipv4_address: 192.168.200.8
+
+  container-b8:
+    container_name: project1-container-b8
+    image: python:3.9
+    command: tail -f /dev/null  # Keeps the container running
+    networks:
+      cluster-b:
+        ipv4_address: 192.168.200.9

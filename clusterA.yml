@@ -1,0 +1,81 @@
+version: '3.8'
+
+networks:
+  cluster-a:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.100.0/24
+
+  shared-network:  # Define shared network
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.50.0/24
+
+services:
+  container-a-master:
+    container_name: cluster-a-master
+    image: python:3.9
+    command: tail -f /dev/null  # Keeps the container running
+    networks:
+      cluster-a:
+        ipv4_address: 192.168.100.2
+      shared-network:  # Add shared network for inter-cluster communication
+        ipv4_address: 192.168.50.2
+
+  container-a2:
+    container_name: project1-container-a2
+    image: python:3.9
+    command: tail -f /dev/null  # Keeps the container running
+    networks:
+      cluster-a:
+        ipv4_address: 192.168.100.3
+
+  container-a3:
+    container_name: project1-container-a3
+    image: python:3.9
+    command: tail -f /dev/null  # Keeps the container running
+    networks:
+      cluster-a:
+        ipv4_address: 192.168.100.4
+
+  container-a4:
+    container_name: project1-container-a4
+    image: python:3.9
+    command: tail -f /dev/null  # Keeps the container running
+    networks:
+      cluster-a:
+        ipv4_address: 192.168.100.5
+
+  container-a5:
+    container_name: project1-container-a5
+    image: python:3.9
+    command: tail -f /dev/null  # Keeps the container running
+    networks:
+      cluster-a:
+        ipv4_address: 192.168.100.6
+
+  container-a6:
+    container_name: project1-container-a6
+    image: python:3.9
+    command: tail -f /dev/null  # Keeps the container running
+    networks:
+      cluster-a:
+        ipv4_address: 192.168.100.7
+
+  container-a7:
+    container_name: project1-container-a7
+    image: python:3.9
+    command: tail -f /dev/null  # Keeps the container running
+    networks:
+      cluster-a:
+        ipv4_address: 192.168.100.8
+
+  container-a8:
+    container_name: project1-container-a8
+    image: python:3.9
+    command: tail -f /dev/null  # Keeps the container running
+    networks:
+      cluster-a:
+        ipv4_address: 192.168.100.9
