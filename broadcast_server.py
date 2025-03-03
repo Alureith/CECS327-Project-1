@@ -14,7 +14,7 @@ server.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 server.settimeout(0.2)
 
 # Define the message to be sent
-message = b"Hello! This is a broadcast."
+message = "Hello! This is a broadcast.".encode()  # Convert the message to bytes
 
 # Set the broadcast address for Cluster A 
 broadcast_address = '192.168.100.255'  # Broadcast address for subnet 192.168.100.0/24

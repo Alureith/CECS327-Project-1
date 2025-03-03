@@ -24,6 +24,9 @@ services:
         ipv4_address: 192.168.100.2  # Correct placement of ipv4_address
       shared-network:
         ipv4_address: 192.168.50.2
+    volumes:
+      - ./broadcast_server.py:/broadcast_server.py  # Mount the multicast sender script
+
 
   # Client containers (7 clients)
   container-a2:
