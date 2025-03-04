@@ -1,16 +1,17 @@
-version: '3.8'
+#version: '3.8'
 
 services:
   # Master Cluster A
-  master_cluster:
+  broadcast_sender:
     image: python:3.9
-    container_name: master_cluster
+    container_name: broadcast_sender
     networks:
       cluster_a:
         ipv4_address: 192.168.0.2
     volumes:
-      - ./master_cluster.py:/master_cluster.py
-    command: ["python", "/master_cluster.py"]
+      - ./broadcast_sender.py:/broadcast_sender.py
+    command: ["python", "/broadcast_sender.py"]
+    privileged: true
 
   container_1:
     image: python:3.9
@@ -19,8 +20,8 @@ services:
       cluster_a:
         ipv4_address: 192.168.0.3
     volumes:
-      - ./container_receiver.py:/container_receiver.py
-    command: ["python", "/container_receiver.py"]
+      - ./broadcast_reciever.py:/broadcast_reciever.py
+    command: ["python", "/broadcast_reciever.py"]
 
   container_2:
     image: python:3.9
@@ -29,8 +30,8 @@ services:
       cluster_a:
         ipv4_address: 192.168.0.4
     volumes:
-      - ./container_receiver.py:/container_receiver.py
-    command: ["python", "/container_receiver.py"]
+      - ./broadcast_reciever.py:/broadcast_reciever.py
+    command: ["python", "/broadcast_reciever.py"]
 
   container_3:
     image: python:3.9
@@ -39,8 +40,8 @@ services:
       cluster_a:
         ipv4_address: 192.168.0.5
     volumes:
-      - ./container_receiver.py:/container_receiver.py
-    command: ["python", "/container_receiver.py"]
+      - ./broadcast_reciever.py:/broadcast_reciever.py
+    command: ["python", "/broadcast_reciever.py"]
 
   container_4:
     image: python:3.9
@@ -49,8 +50,8 @@ services:
       cluster_a:
         ipv4_address: 192.168.0.6
     volumes:
-      - ./container_receiver.py:/container_receiver.py
-    command: ["python", "/container_receiver.py"]
+      - ./broadcast_reciever.py:/broadcast_reciever.py
+    command: ["python", "/broadcast_reciever.py"]
 
   container_5:
     image: python:3.9
@@ -59,8 +60,8 @@ services:
       cluster_a:
         ipv4_address: 192.168.0.7
     volumes:
-      - ./container_receiver.py:/container_receiver.py
-    command: ["python", "/container_receiver.py"]
+      - ./broadcast_reciever.py:/broadcast_reciever.py
+    command: ["python", "/broadcast_reciever.py"]
 
   container_6:
     image: python:3.9
@@ -69,8 +70,8 @@ services:
       cluster_a:
         ipv4_address: 192.168.0.8
     volumes:
-      - ./container_receiver.py:/container_receiver.py
-    command: ["python", "/container_receiver.py"]
+      - ./broadcast_reciever.py:/broadcast_reciever.py
+    command: ["python", "/broadcast_reciever.py"]
 
   container_7:
     image: python:3.9
@@ -79,8 +80,8 @@ services:
       cluster_a:
         ipv4_address: 192.168.0.9
     volumes:
-      - ./container_receiver.py:/container_receiver.py
-    command: ["python", "/container_receiver.py"]
+      - ./broadcast_reciever.py:/broadcast_reciever.py
+    command: ["python", "/broadcast_reciever.py"]
 
   # Master Cluster B (No command, no python script)
   master_cluster_b:
@@ -89,13 +90,20 @@ services:
     networks:
       cluster_b:
         ipv4_address: 192.169.0.2
+    volumes:
+      - ./multicast_sender.py:/multicast_sender.py
+    command: ["python", "/multicast_sender.py", "224.1.1.1"]  # Send only to first half
 
+  # First half of the receivers (Listening on 224.1.1.1)
   container_8:
     image: python:3.9
     container_name: container_8
     networks:
       cluster_b:
         ipv4_address: 192.169.0.3
+    volumes:
+      - ./multicast_reciever.py:/multicast_reciever.py
+    command: ["python", "/multicast_reciever.py", "224.1.1.1"]
 
   container_9:
     image: python:3.9
@@ -103,6 +111,9 @@ services:
     networks:
       cluster_b:
         ipv4_address: 192.169.0.4
+    volumes:
+      - ./multicast_reciever.py:/multicast_reciever.py
+    command: ["python", "/multicast_reciever.py", "224.1.1.1"]
 
   container_10:
     image: python:3.9
@@ -110,6 +121,9 @@ services:
     networks:
       cluster_b:
         ipv4_address: 192.169.0.5
+    volumes:
+      - ./multicast_reciever.py:/multicast_reciever.py
+    command: ["python", "/multicast_reciever.py", "224.1.1.1"]
 
   container_11:
     image: python:3.9
@@ -117,13 +131,20 @@ services:
     networks:
       cluster_b:
         ipv4_address: 192.169.0.6
+    volumes:
+      - ./multicast_reciever.py:/multicast_reciever.py
+    command: ["python", "/multicast_reciever.py", "224.1.1.1"]
 
+  # Second half of the receivers (Listening on 224.1.1.2, ignored by sender)
   container_12:
     image: python:3.9
     container_name: container_12
     networks:
       cluster_b:
         ipv4_address: 192.169.0.7
+    volumes:
+      - ./multicast_reciever.py:/multicast_reciever.py
+    command: ["python", "/multicast_reciever.py", "224.1.1.2"]
 
   container_13:
     image: python:3.9
@@ -131,6 +152,9 @@ services:
     networks:
       cluster_b:
         ipv4_address: 192.169.0.8
+    volumes:
+      - ./multicast_reciever.py:/multicast_reciever.py
+    command: ["python", "/multicast_reciever.py", "224.1.1.2"]
 
   container_14:
     image: python:3.9
@@ -138,6 +162,9 @@ services:
     networks:
       cluster_b:
         ipv4_address: 192.169.0.9
+    volumes:
+      - ./multicast_reciever.py:/multicast_reciever.py
+    command: ["python", "/multicast_reciever.py", "224.1.1.2"]
 
   container_15:
     image: python:3.9
@@ -145,6 +172,9 @@ services:
     networks:
       cluster_b:
         ipv4_address: 192.169.0.10
+    volumes:
+      - ./multicast_reciever.py:/multicast_reciever.py
+    command: ["python", "/multicast_reciever.py", "224.1.1.2"]
 
   container_16:
     image: python:3.9
@@ -152,6 +182,9 @@ services:
     networks:
       cluster_b:
         ipv4_address: 192.169.0.11
+    volumes:
+      - ./multicast_reciever.py:/multicast_reciever.py
+    command: ["python", "/multicast_reciever.py", "224.1.1.2"]
 
 networks:
   cluster_a:
