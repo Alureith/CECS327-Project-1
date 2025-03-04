@@ -82,16 +82,13 @@ services:
       - ./container_receiver.py:/container_receiver.py
     command: ["python", "/container_receiver.py"]
 
-  # Master Cluster B (Not currently in use)
+  # Master Cluster B (No command, no python script)
   master_cluster_b:
     image: python:3.9
     container_name: master_cluster_b
     networks:
       cluster_b:
         ipv4_address: 192.169.0.2
-    volumes:
-      - ./master_cluster.py:/master_cluster.py
-    command: ["python", "/master_cluster.py"]
 
   container_8:
     image: python:3.9
@@ -99,9 +96,6 @@ services:
     networks:
       cluster_b:
         ipv4_address: 192.169.0.3
-    volumes:
-      - ./container_receiver.py:/container_receiver.py
-    command: ["python", "/container_receiver.py"]
 
   container_9:
     image: python:3.9
@@ -109,9 +103,6 @@ services:
     networks:
       cluster_b:
         ipv4_address: 192.169.0.4
-    volumes:
-      - ./container_receiver.py:/container_receiver.py
-    command: ["python", "/container_receiver.py"]
 
   container_10:
     image: python:3.9
@@ -119,9 +110,6 @@ services:
     networks:
       cluster_b:
         ipv4_address: 192.169.0.5
-    volumes:
-      - ./container_receiver.py:/container_receiver.py
-    command: ["python", "/container_receiver.py"]
 
   container_11:
     image: python:3.9
@@ -129,9 +117,6 @@ services:
     networks:
       cluster_b:
         ipv4_address: 192.169.0.6
-    volumes:
-      - ./container_receiver.py:/container_receiver.py
-    command: ["python", "/container_receiver.py"]
 
   container_12:
     image: python:3.9
@@ -139,9 +124,6 @@ services:
     networks:
       cluster_b:
         ipv4_address: 192.169.0.7
-    volumes:
-      - ./container_receiver.py:/container_receiver.py
-    command: ["python", "/container_receiver.py"]
 
   container_13:
     image: python:3.9
@@ -149,9 +131,6 @@ services:
     networks:
       cluster_b:
         ipv4_address: 192.169.0.8
-    volumes:
-      - ./container_receiver.py:/container_receiver.py
-    command: ["python", "/container_receiver.py"]
 
   container_14:
     image: python:3.9
@@ -159,9 +138,6 @@ services:
     networks:
       cluster_b:
         ipv4_address: 192.169.0.9
-    volumes:
-      - ./container_receiver.py:/container_receiver.py
-    command: ["python", "/container_receiver.py"]
 
   container_15:
     image: python:3.9
@@ -169,9 +145,6 @@ services:
     networks:
       cluster_b:
         ipv4_address: 192.169.0.10
-    volumes:
-      - ./container_receiver.py:/container_receiver.py
-    command: ["python", "/container_receiver.py"]
 
   container_16:
     image: python:3.9
@@ -179,9 +152,6 @@ services:
     networks:
       cluster_b:
         ipv4_address: 192.169.0.11
-    volumes:
-      - ./container_receiver.py:/container_receiver.py
-    command: ["python", "/container_receiver.py"]
 
 networks:
   cluster_a:
