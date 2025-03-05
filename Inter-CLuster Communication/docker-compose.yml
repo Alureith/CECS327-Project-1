@@ -1,0 +1,199 @@
+version: '3.8'
+
+services:
+  # Master Cluster A
+  cluster_master_a:
+    image: python:3.9
+    container_name: cluster_master_a
+    networks:
+      cluster_a:
+        ipv4_address: 192.168.0.2
+    volumes:
+      - ./cluster_master.py:/cluster_master.py
+      - ./send_message.py:/send_message.py
+    command: ["python", "/cluster_master.py", "A"]
+
+  container_1:
+    image: python:3.9
+    container_name: container_1
+    networks:
+      cluster_a:
+        ipv4_address: 192.168.0.3
+    volumes:
+      - ./send_message.py:/send_message.py
+    command: ["tail", "-f", "/dev/null"]
+
+  container_2:
+    image: python:3.9
+    container_name: container_2
+    networks:
+      cluster_a:
+        ipv4_address: 192.168.0.4
+    volumes:
+      - ./send_message.py:/send_message.py
+    command: ["tail", "-f", "/dev/null"]
+
+  container_3:
+    image: python:3.9
+    container_name: container_3
+    networks:
+      cluster_a:
+        ipv4_address: 192.168.0.5
+    volumes:
+      - ./send_message.py:/send_message.py
+    command: ["tail", "-f", "/dev/null"]
+
+  container_4:
+    image: python:3.9
+    container_name: container_4
+    networks:
+      cluster_a:
+        ipv4_address: 192.168.0.6
+    volumes:
+      - ./send_message.py:/send_message.py
+    command: ["tail", "-f", "/dev/null"]
+
+  container_5:
+    image: python:3.9
+    container_name: container_5
+    networks:
+      cluster_a:
+        ipv4_address: 192.168.0.7
+    volumes:
+      - ./send_message.py:/send_message.py
+    command: ["tail", "-f", "/dev/null"]
+
+  container_6:
+    image: python:3.9
+    container_name: container_6
+    networks:
+      cluster_a:
+        ipv4_address: 192.168.0.8
+    volumes:
+      - ./send_message.py:/send_message.py
+    command: ["tail", "-f", "/dev/null"]
+
+  container_7:
+    image: python:3.9
+    container_name: container_7
+    networks:
+      cluster_a:
+        ipv4_address: 192.168.0.9
+    volumes:
+      - ./send_message.py:/send_message.py
+    command: ["tail", "-f", "/dev/null"]
+
+  # Master Cluster B
+  cluster_master_b:
+    image: python:3.9
+    container_name: cluster_master_b
+    networks:
+      cluster_b:
+        ipv4_address: 192.169.0.2
+    volumes:
+      - ./cluster_master.py:/cluster_master.py
+      - ./send_message.py:/send_message.py
+    command: ["python", "/cluster_master.py", "B"]
+
+  container_8:
+    image: python:3.9
+    container_name: container_8
+    networks:
+      cluster_b:
+        ipv4_address: 192.169.0.3
+    volumes:
+      - ./send_message.py:/send_message.py
+    command: ["tail", "-f", "/dev/null"]
+
+  container_9:
+    image: python:3.9
+    container_name: container_9
+    networks:
+      cluster_b:
+        ipv4_address: 192.169.0.4
+    volumes:
+      - ./send_message.py:/send_message.py
+    command: ["tail", "-f", "/dev/null"]
+
+  container_10:
+    image: python:3.9
+    container_name: container_10
+    networks:
+      cluster_b:
+        ipv4_address: 192.169.0.5
+    volumes:
+      - ./send_message.py:/send_message.py
+    command: ["tail", "-f", "/dev/null"]
+
+  container_11:
+    image: python:3.9
+    container_name: container_11
+    networks:
+      cluster_b:
+        ipv4_address: 192.169.0.6
+    volumes:
+      - ./send_message.py:/send_message.py
+    command: ["tail", "-f", "/dev/null"]
+
+  container_12:
+    image: python:3.9
+    container_name: container_12
+    networks:
+      cluster_b:
+        ipv4_address: 192.169.0.7
+    volumes:
+      - ./send_message.py:/send_message.py
+    command: ["tail", "-f", "/dev/null"]
+
+  container_13:
+    image: python:3.9
+    container_name: container_13
+    networks:
+      cluster_b:
+        ipv4_address: 192.169.0.8
+    volumes:
+      - ./send_message.py:/send_message.py
+    command: ["tail", "-f", "/dev/null"]
+
+  container_14:
+    image: python:3.9
+    container_name: container_14
+    networks:
+      cluster_b:
+        ipv4_address: 192.169.0.9
+    volumes:
+      - ./send_message.py:/send_message.py
+    command: ["tail", "-f", "/dev/null"]
+
+  container_15:
+    image: python:3.9
+    container_name: container_15
+    networks:
+      cluster_b:
+        ipv4_address: 192.169.0.10
+    volumes:
+      - ./send_message.py:/send_message.py
+    command: ["tail", "-f", "/dev/null"]
+
+  container_16:
+    image: python:3.9
+    container_name: container_16
+    networks:
+      cluster_b:
+        ipv4_address: 192.169.0.11
+    volumes:
+      - ./send_message.py:/send_message.py
+    command: ["tail", "-f", "/dev/null"]
+
+networks:
+  cluster_a:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: "192.168.0.0/24"
+
+  cluster_b:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: "192.169.0.0/24"
