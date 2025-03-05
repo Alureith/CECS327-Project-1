@@ -1,4 +1,5 @@
 import socket
+import sys
 
 # Cluster Master IPs
 CLUSTER_A_MASTER = "192.168.0.2"
@@ -12,18 +13,18 @@ def cluster_master(is_cluster_a):
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.bind((master_ip, PORT))
     
-    print(f"Cluster Master at {master_ip} listening for inter-cluster messages...")
+    print(f"Cluster Master at {master_ip} listening for inter-cluster messages...", flush=True)
 
     while True:
         message, addr = sock.recvfrom(1024)
-        print(f"Received message: {message.decode()} from {addr}")
+        print(f"Received message: {message.decode()} from {addr}", flush=True)
 
         # If it's from our own cluster, forward it to the other cluster master
         if addr[0] != peer_master_ip:
-            print(f"Forwarding to cluster master {peer_master_ip}")
+            print(f"Forwarding to cluster master {peer_master_ip}", flush=True)
             sock.sendto(message, (peer_master_ip, PORT))
         else:
-            print("Delivering to final destination...")
+            print("Delivering to final destination...", flush=True)
 
 if __name__ == "__main__":
     import sys
