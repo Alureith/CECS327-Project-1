@@ -56,5 +56,43 @@ This commands starts all 16 containers and runs the python scripts inside the do
 Once the containers have started up, you will see print statements of the containers communicating with
 each other and the containers will automatically exit once done. 
 
-### **Step 3:  **
+To close the containers once they succesffully exit after commuincating, type the following command:
 
+```
+docker-compose down
+```
+
+### **Step 3: Inter-Cluster Communication **
+
+From the previous steps, navigate to the folder "Inter-cluster communication". Run the following command to start the containers in "detached" mode which opens them in the background:
+
+``` 
+docker-compose up --build -d
+```
+
+To build the containers. Once the containers have been built, to send a message from Cluster A to Cluster B, type the following command:
+
+```
+docker exec -it container_1 python send_message.py B "Hello from Cluster A!"
+```
+This sends a message from container 1 to Cluster B.
+
+To view the steps the message goes through to reach its final destination type in the command:
+
+```
+docker logs cluster_master_a
+```
+
+To send a message from Cluster B to Cluster A enter the command:
+
+```
+docker exec -it container_8 python send_message.py A "Hello from Cluster B!"
+```
+
+And to view the logs of this process enter the command
+
+```
+docker logs cluster_master_b
+```
+
+### **Step 4: **
