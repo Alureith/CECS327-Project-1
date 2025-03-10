@@ -186,6 +186,21 @@ services:
       - ./multicast_reciever.py:/multicast_reciever.py
     command: ["python", "/multicast_reciever.py", "224.1.1.2"]
 
+
+  network_monitor:
+    build: .
+    container_name: network_monitor
+    networks:
+      - cluster_a
+      - cluster_b
+    volumes:
+      - ./logs:/app/logs
+    privileged: true
+    cap_add:
+      - NET_ADMIN
+    sysctls:
+      - net.ipv4.ip_forward=1
+
 networks:
   cluster_a:
     driver: bridge

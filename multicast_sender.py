@@ -16,4 +16,4 @@ def send_multicast(message, multicast_group):
 if __name__ == "__main__":
     # Use multicast group provided via command-line argument
     multicast_group = sys.argv[1] if len(sys.argv) > 1 else "224.1.1.1"
-    send_multicast("Hello, First Half of Cluster!", multicast_group)
+    send_multicast("Hello, Cluster B!", multicast_group)
