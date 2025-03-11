@@ -185,6 +185,17 @@ services:
       - ./send_message.py:/send_message.py
     command: ["tail", "-f", "/dev/null"]
 
+# Traffic Monitoring Service
+  traffic_monitor:
+    build: .
+    container_name: traffic_monitor
+    networks:
+      - cluster_a
+      - cluster_b
+    volumes:
+      - ./monitor.py:/monitor.py  # Mount the traffic monitoring script
+    command: ["python", "/monitor.py"]  # Run the monitoring script inside the container
+
 networks:
   cluster_a:
     driver: bridge

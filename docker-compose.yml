@@ -187,8 +187,9 @@ services:
     command: ["python", "/multicast_reciever.py", "224.1.1.2"]
 
 
-    network_monitor:
+  network_monitor:
     build: .
+    image: cecs327-project-1-network_monitor
     container_name: network_monitor
     networks:
       - cluster_a
@@ -200,25 +201,7 @@ services:
       - NET_ADMIN
     sysctls:
       - net.ipv4.ip_forward=1
-    depends_on:
-      - broadcast_sender
-      - container_1
-      - container_2
-      - container_3
-      - container_4
-      - container_5
-      - container_6
-      - container_7
-      - master_cluster_b
-      - container_8
-      - container_9
-      - container_10
-      - container_11
-      - container_12
-      - container_13
-      - container_14
-      - container_15
-      - container_16
+    command: ["python", "/app/monitor.py"]
 
 
 networks:
