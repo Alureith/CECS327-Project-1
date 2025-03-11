@@ -6,8 +6,9 @@ services:
     image: python:3.9
     container_name: cluster_master_a
     networks:
-      cluster_a:
-        ipv4_address: 192.168.0.2
+       cluster_a:
+          ipv4_address: 192.168.0.2
+       shared_network: {}
     volumes:
       - ./cluster_master.py:/cluster_master.py
       - ./send_message.py:/send_message.py
@@ -19,6 +20,7 @@ services:
     networks:
       cluster_a:
         ipv4_address: 192.168.0.3
+      shared_network: {}
     volumes:
       - ./send_message.py:/send_message.py
     command: ["tail", "-f", "/dev/null"]
@@ -29,6 +31,7 @@ services:
     networks:
       cluster_a:
         ipv4_address: 192.168.0.4
+      shared_network: {}
     volumes:
       - ./send_message.py:/send_message.py
     command: ["tail", "-f", "/dev/null"]
@@ -39,6 +42,7 @@ services:
     networks:
       cluster_a:
         ipv4_address: 192.168.0.5
+      shared_network: {}
     volumes:
       - ./send_message.py:/send_message.py
     command: ["tail", "-f", "/dev/null"]
@@ -49,6 +53,7 @@ services:
     networks:
       cluster_a:
         ipv4_address: 192.168.0.6
+      shared_network: {}
     volumes:
       - ./send_message.py:/send_message.py
     command: ["tail", "-f", "/dev/null"]
@@ -59,6 +64,7 @@ services:
     networks:
       cluster_a:
         ipv4_address: 192.168.0.7
+      shared_network: {}
     volumes:
       - ./send_message.py:/send_message.py
     command: ["tail", "-f", "/dev/null"]
@@ -69,6 +75,7 @@ services:
     networks:
       cluster_a:
         ipv4_address: 192.168.0.8
+      shared_network: {}
     volumes:
       - ./send_message.py:/send_message.py
     command: ["tail", "-f", "/dev/null"]
@@ -79,6 +86,7 @@ services:
     networks:
       cluster_a:
         ipv4_address: 192.168.0.9
+      shared_network: {}
     volumes:
       - ./send_message.py:/send_message.py
     command: ["tail", "-f", "/dev/null"]
@@ -90,6 +98,7 @@ services:
     networks:
       cluster_b:
         ipv4_address: 192.169.0.2
+      shared_network: {}
     volumes:
       - ./cluster_master.py:/cluster_master.py
       - ./send_message.py:/send_message.py
@@ -101,6 +110,7 @@ services:
     networks:
       cluster_b:
         ipv4_address: 192.169.0.3
+      shared_network: {}
     volumes:
       - ./send_message.py:/send_message.py
     command: ["tail", "-f", "/dev/null"]
@@ -111,6 +121,7 @@ services:
     networks:
       cluster_b:
         ipv4_address: 192.169.0.4
+      shared_network: {}
     volumes:
       - ./send_message.py:/send_message.py
     command: ["tail", "-f", "/dev/null"]
@@ -121,6 +132,7 @@ services:
     networks:
       cluster_b:
         ipv4_address: 192.169.0.5
+      shared_network: {}
     volumes:
       - ./send_message.py:/send_message.py
     command: ["tail", "-f", "/dev/null"]
@@ -131,6 +143,7 @@ services:
     networks:
       cluster_b:
         ipv4_address: 192.169.0.6
+      shared_network: {}
     volumes:
       - ./send_message.py:/send_message.py
     command: ["tail", "-f", "/dev/null"]
@@ -141,6 +154,7 @@ services:
     networks:
       cluster_b:
         ipv4_address: 192.169.0.7
+      shared_network: {}
     volumes:
       - ./send_message.py:/send_message.py
     command: ["tail", "-f", "/dev/null"]
@@ -151,6 +165,7 @@ services:
     networks:
       cluster_b:
         ipv4_address: 192.169.0.8
+      shared_network: {}
     volumes:
       - ./send_message.py:/send_message.py
     command: ["tail", "-f", "/dev/null"]
@@ -161,6 +176,7 @@ services:
     networks:
       cluster_b:
         ipv4_address: 192.169.0.9
+      shared_network: {}
     volumes:
       - ./send_message.py:/send_message.py
     command: ["tail", "-f", "/dev/null"]
@@ -171,6 +187,7 @@ services:
     networks:
       cluster_b:
         ipv4_address: 192.169.0.10
+      shared_network: {}
     volumes:
       - ./send_message.py:/send_message.py
     command: ["tail", "-f", "/dev/null"]
@@ -181,6 +198,7 @@ services:
     networks:
       cluster_b:
         ipv4_address: 192.169.0.11
+      shared_network: {}
     volumes:
       - ./send_message.py:/send_message.py
     command: ["tail", "-f", "/dev/null"]
@@ -192,9 +210,12 @@ services:
     networks:
       - cluster_a
       - cluster_b
+      - shared_network
     volumes:
       - ./monitor.py:/monitor.py  # Mount the traffic monitoring script
+      - ./network_traffic_log.csv:/app/network_traffic_log.csv  # Mount the log file
     command: ["python", "/monitor.py"]  # Run the monitoring script inside the container
+    privileged: true  # Allow network sniffing
 
 networks:
   cluster_a:
@@ -208,3 +229,6 @@ networks:
     ipam:
       config:
         - subnet: "192.169.0.0/24"
+  
+  shared_network:
+    driver: bridge

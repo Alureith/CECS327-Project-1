@@ -58,10 +58,11 @@ def sniff_traffic():
     # Start sniffing on all interfaces (you can specify a particular interface if needed)
     sniff(prn=log_packet, store=0)
 
-if __name__ == "__main__":
-    # Create or initialize CSV file with headers
-    with open(OUTPUT_FILE, mode='w', newline='') as file:
-        writer = csv.writer(file)
+# Create or initialize CSV file with headers
+with open(OUTPUT_FILE, mode='a', newline='') as file:  # Change 'w' to 'a'
+    writer = csv.writer(file)
+    # Only write headers if the file is empty
+    if file.tell() == 0:
         writer.writerow([
             "Type", "Time (s)", "Source Cluster", "Destination Cluster",
             "Source IP", "Destination IP", "Protocol", "Length (bytes)", "Flags (hex)"
