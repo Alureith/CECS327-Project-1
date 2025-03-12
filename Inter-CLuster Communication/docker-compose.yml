@@ -207,15 +207,17 @@ services:
   traffic_monitor:
     build: .
     container_name: traffic_monitor
+    working_dir: /app
     networks:
       - cluster_a
       - cluster_b
       - shared_network
     volumes:
-      - ./monitor.py:/monitor.py  # Mount the traffic monitoring script
-      - ./network_traffic_log.csv:/app/network_traffic_log.csv  # Mount the log file
-    command: ["python", "/monitor.py"]  # Run the monitoring script inside the container
-    privileged: true  # Allow network sniffing
+      - ./monitor.py:/app/monitor.py
+      - ./network_traffic_log.txt:/app/network_traffic_log.txt
+    command: ["python", "monitor.py"]
+    privileged: true
+
 
 networks:
   cluster_a:

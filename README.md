@@ -15,6 +15,10 @@ communication protocols to optimize message delivery across nodes in a simulated
     - cluster master.py
     - docker-compose.yml
     - send_message.py
+    - auto_send.py
+    - monitor.py
+    - Dockerfile
+    - network_traffic_log.txt
 
 - broadcast reciever.py
 - broadcast_sender.py
@@ -89,10 +93,24 @@ To send a message from Cluster B to Cluster A enter the command:
 docker exec -it container_8 python send_message.py A "Hello from Cluster B!"
 ```
 
+Or the user can use the script "auto_message.py" using the command
+
+```
+python auto_message.py
+```
+
 And to view the logs of this process enter the command
 
 ```
 docker logs cluster_master_b
 ```
 
-### **Step 4: **
+### **Step 4: Monitering Commuincations **
+
+So start up a moniter using scapy, once the containers are running using detached mode, enter the following command:
+
+```
+python monitor.py
+```
+
+that should start a log of communications between the cluster and store the infomration within the "network_traffic_log.py" file.
